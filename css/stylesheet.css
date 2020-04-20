@@ -34,7 +34,7 @@ Table Column class selectors
     text-align: center;
 }
 
-.table tbody tr:hover{
+.table tbody:hover tr:hover {
     cursor: pointer;
     background-color: aliceblue;
 }

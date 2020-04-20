@@ -41,7 +41,7 @@
           <div class="container-fluid">
 
 
-            <form action="" method="GET">
+            <form action="" method="GET" id="myForm">
               <div class="row form-group">
                 <label class="col-form-label col-md-2">Name:</label>
                 <input id="nameText" type="text" class="form-control col-md-10" required>
@@ -49,10 +49,10 @@
     
               <div class="row form-group">
                 <label class="col-form-label col-md-2">From:</label>
-                <label class="col-md-2 radio-option" id="fromA">Bowdoin
+                <label class="col-md-2 radio-option">Bowdoin
                 <input type="radio" id="fromBowdoin" name="from" required>
                 </label>
-                <label class="col-md-2 radio-option" id="fromB">PWM
+                <label class="col-md-2 radio-option">PWM
                 <input type="radio" id="fromPWM" name="from" required>
                 </label>
                 <label class="col-md-2 radio-option">Other:
@@ -62,10 +62,10 @@
     
               <div class="row form-group">
                 <label class="col-form-label col-md-2">To:</label>
-                <label class="col-md-2 radio-option" id="toA">Bowdoin
+                <label class="col-md-2 radio-option">Bowdoin
                 <input id="toBowdoin" type="radio" name="destination" required>
                 </label>
-                <label class="col-md-2 radio-option" id="toB">PWM
+                <label class="col-md-2 radio-option">PWM
                 <input type="radio" name="destination" id="toPWM">
                 </label>
                 <label class="col-md-2 radio-option">Other:
@@ -112,7 +112,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" onclick="submitClick()" class="btn btn-primary">Submit</button>
+          <button type="submit" onclick="submitClick()" class="btn btn-primary" data-dismiss="modal">Submit</button>
         </div>
       </div>
     </div>
@@ -120,14 +120,7 @@
       
     
     
-  <!-- Scripts go below here-->
-    
-  <!-- The core Firebase JS SDK is always required and must be listed first -->
-  <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
-    
-  <!-- TODO: Add SDKs for Firebase products that you want to use
-         https://firebase.google.com/docs/web/setup#available-libraries -->
-  <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
+  <!-- Scripts go below here-->    
     
   <!-- jQuery-->
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -143,7 +136,6 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
     crossorigin="anonymous"></script>
-
 
   <!-- DO NOT INCLUDE JS/MAIN.JS -->
 
