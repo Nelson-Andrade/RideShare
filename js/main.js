@@ -10,10 +10,27 @@ var firebaseConfig = {
   measurementId: "G-0XBSXP8RCT"
 };
 // Initialize Firebase
-// firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
 // Firebase reference
-// var database = firebase.database();
+var database = firebase.database();
+
+var elmtTable = document.getElementById('allOffers');
+var tableRows = elmtTable.getElementsByTagName('tr'); 
+var rowCount = tableRows.length;
+for (var x=rowCount-1; x>0; x--) {
+  tableRows[x].innerHTML = '';
+}
+
+var elmtTable = document.getElementById('requests');
+var tableRows = elmtTable.getElementsByTagName('tr'); 
+var rowCount = tableRows.length;
+for (var x=rowCount-1; x>0; x--) {
+  tableRows[x].innerHTML = '';
+}
+
+var ref = database.ref('Offers');
+ref.on('value', getData, errData);
 
 function submitClick() {
     var nameText = document.getElementById("nameText").value;
@@ -36,34 +53,137 @@ function submitClick() {
     var addInfo = document.getElementById("addInfo").value;
 
     if (fromBowdoin) {
-      fromLocation = document.getElementById("fromA").textContent;
+      fromLocation = "Bowdoin";
     } else if (fromPWM) {
-      fromLocation = document.getElementById("fromB").textContent;
+      fromLocation = "PWM";
     } else {
       fromLocation = fromOther;
     }
 
     if (toBowdoin) {
-      toLocation = document.getElementById("toA").textContent;
+      //toLocation = document.getElementById("toA").textContent;
+      toLocation = "Bowdoin";
     } else if (toPWM) {
-      toLocation = document.getElementById("toB").textContent;
+      toLocation = "PWM";
     } else {
       toLocation = toOther;
     }
 
-    // database.ref().child("Text").set(nameText);
+    uploadData(nameText, fromLocation, toLocation, datepicker, time, passengers, price, email, phone, addInfo);
 
-    console.log(nameText);
-    console.log(datepicker);
-    console.log(time);
-    console.log(passengers);
-    console.log(price);
-    console.log(email);
-    console.log(phone);
-    console.log(addInfo);
-    console.log(fromLocation);
-    console.log(toLocation);
+    var ids = ["nameText","fromBowdoin","fromPWM","fromOther","toBowdoin","toPWM",
+    "toOther","datepicker","time","numOfPassengers","price","email","phone","addInfo"];
+    reset(ids);
+
 }
+
+function reset(elementId){
+  for (element of elementId) {
+    var resetElement = document.getElementById(element);
+    if (resetElement.type == "text" || resetElement.type == "time" || resetElement.type == "email" || resetElement.type == "tel"){
+      resetElement.value= "";
+    } else if (resetElement.type == "radio") {
+      resetElement.checked = false;
+    } else if (elementId == "numOfPassengers") {
+      resetElement.value = "1";
+    } else if (elementId == "addInfo") {
+      resetElement.value = "";
+    }
+  }
+}
+
+function uploadData(name, from, dest, date, time, seats, price, email, phone, additional) {
+  database.ref('Offers').push({
+    'Name': name,
+    'From': from,
+    'Destination': dest,
+    'Date': date,
+    'Time': time,
+    'Seats': seats,
+    'Price': '$' + price,
+    'Email': email,
+    'Phone': phone,
+    'Additional': additional
+  })
+}
+
+function getData(data) {
+  var elmtTable = document.getElementById('allOffers');
+  var tableRows = elmtTable.getElementsByTagName('tr'); 
+  var rowCount = tableRows.length;
+
+  for (var x=rowCount-1; x>0; x--) {
+    tableRows[x].innerHTML = '';
+  }
+
+  var elmtTable = document.getElementById('requests');
+  var tableRows = elmtTable.getElementsByTagName('tr'); 
+  var rowCount = tableRows.length;
+
+  for (var x=rowCount-1; x>0; x--) {
+    tableRows[x].innerHTML = '';
+  }
+
+  var offers = data.val();
+  var keys = Object.keys(offers);
+  console.log(keys);
+
+  for (var i = 0; i < keys.length; i++) {
+    var k = keys[i];
+
+    var dateText = offers[k].Date;
+    var fromText = offers[k].From;
+    var destText = offers[k].Destination;
+    var nameText = offers[k].Name;
+    var priceText = offers[k].Price;
+    var seatsText = offers[k].Seats;
+
+    createCell(dateText, fromText, destText, nameText, priceText, seatsText);
+  }
+}
+
+function errData(err) {
+  console.log('ERROR!');
+  console.log(err);
+}
+
+function createCell(dateInput, fromInput, destInput, nameInput, priceInput, seatsInput) {
+  var table = document.getElementById("allOffers");
+  var newBody = document.createElement("tbody");
+  var newRow = document.createElement("tr");
+
+  var pwmTable = document.getElementById("requests");
+
+  var date = document.createElement("th");
+  var from = document.createElement("td");
+  var dest = document.createElement("td");
+  var name = document.createElement("td");
+  var price = document.createElement("td");
+  var seats = document.createElement("td");
+
+  date.innerHTML = dateInput;
+  from.innerHTML = fromInput;
+  dest.innerHTML = destInput;
+  name.innerHTML = nameInput;
+  price.innerHTML = priceInput;
+  seats.innerHTML = seatsInput;
+
+  newRow.append(date);
+  newRow.append(from);
+  newRow.append(dest);
+  newRow.append(name);
+  newRow.append(price);
+  newRow.append(seats);
+
+  newBody.append(newRow);
+  table.append(newBody);
+  var cln = newBody.cloneNode(true);
+  pwmTable.append(cln);
+}
+
+
+
+
 
 if (document.getElementById("PWMRequestForm")) {
   // Get the modal
