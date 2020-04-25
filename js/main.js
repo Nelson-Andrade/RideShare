@@ -177,8 +177,9 @@ function createCell(dateInput, fromInput, destInput, nameInput, priceInput, seat
 
   newBody.append(newRow);
   table.append(newBody);
-  var cln = newBody.cloneNode(true);
-  pwmTable.append(cln);
+
+  var clone = newBody.cloneNode(true);
+  pwmTable.append(clone);
 }
 
 
