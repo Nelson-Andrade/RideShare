@@ -61,7 +61,6 @@ function submitClick() {
     }
 
     if (toBowdoin) {
-      //toLocation = document.getElementById("toA").textContent;
       toLocation = "Bowdoin";
     } else if (toPWM) {
       toLocation = "PWM";

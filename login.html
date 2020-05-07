@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login Registration for Rideshare</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+    <div id="login_div" class="container-center">
+        <div class="login-page">
+          <div class="form">
+            <h1>SIGN IN</h1>
+            <form class="register-form">
+              <input type="text" placeholder="Email Address"/>
+              <input type="password" placeholder="Password"/>
+              <button onclick='create()'>Create</button>
+              <p class="message">Already Registered? <a href="#">Login</a></p>
+            </form>
+
+            <form class="login-form">
+              <input type="text" placeholder="Email" id="user_email"/>
+              <input type="password" placeholder="Password" id="user_pass"/>
+              <button onclick="login()">Login</button>
+              <p class="message">Not Registered? <a href="#">Register</a></p>
+            </form>
+          </div>
+        </div>
+    </div>
+
+    <div id="user_div">
+        <h3>Firebase Web Login Example</h3>
+        <p>Welcome to Firebase web login example! You're currently logged in.</p>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+    <script>
+        $('.message a').click(function(){
+            $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+        });
+    </script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-auth.js"></script>
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyBBA8TWfMj49M_B1_fjdxaFOBJ4Et5zr5Y",
+        authDomain: "rideshare-fd0e2.firebaseapp.com",
+        databaseURL: "https://rideshare-fd0e2.firebaseio.com",
+        projectId: "rideshare-fd0e2",
+        storageBucket: "rideshare-fd0e2.appspot.com",
+        messagingSenderId: "647353302472",
+        appId: "1:647353302472:web:412d154497a7ad30af14fd",
+        measurementId: "G-0XBSXP8RCT"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script> 
+
+  <script src="js/login.js"></script>
+
+</body>
+
+</html>
