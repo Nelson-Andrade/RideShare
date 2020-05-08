@@ -22,15 +22,18 @@ for (var x=rowCount-1; x>0; x--) {
   tableRows[x].innerHTML = '';
 }
 
-var elmtTable = document.getElementById('requests');
+var elmtTable = document.getElementById('PWMOffers');
 var tableRows = elmtTable.getElementsByTagName('tr'); 
 var rowCount = tableRows.length;
 for (var x=rowCount-1; x>0; x--) {
   tableRows[x].innerHTML = '';
 }
 
-var ref = database.ref('Offers');
-ref.on('value', getData, errData);
+var ref = database.ref('PWM-Offers');
+ref.on('value', getPWMOffersData, errData);
+
+var ref = database.ref('General-Offers');
+ref.on('value', getGenOffersData, errData);
 
 function submitClick() {
     var nameText = document.getElementById("nameText").value;
@@ -61,7 +64,6 @@ function submitClick() {
     }
 
     if (toBowdoin) {
-      //toLocation = document.getElementById("toA").textContent;
       toLocation = "Bowdoin";
     } else if (toPWM) {
       toLocation = "PWM";
@@ -74,7 +76,6 @@ function submitClick() {
     var ids = ["nameText","fromBowdoin","fromPWM","fromOther","toBowdoin","toPWM",
     "toOther","datepicker","time","numOfPassengers","price","email","phone","addInfo"];
     reset(ids);
-
 }
 
 function reset(elementId){
@@ -93,30 +94,38 @@ function reset(elementId){
 }
 
 function uploadData(name, from, dest, date, time, seats, price, email, phone, additional) {
-  database.ref('Offers').push({
-    'Name': name,
-    'From': from,
-    'Destination': dest,
-    'Date': date,
-    'Time': time,
-    'Seats': seats,
-    'Price': '$' + price,
-    'Email': email,
-    'Phone': phone,
-    'Additional': additional
-  })
+
+  if (dest == "PWM") {
+    database.ref('PWM-Offers').push({
+      'Name': name,
+      'From': from,
+      'Destination': dest,
+      'Date': date,
+      'Time': time,
+      'Seats': seats,
+      'Price': '$' + price,
+      'Email': email,
+      'Phone': phone,
+      'Additional': additional
+    })
+  } else {
+    database.ref('General-Offers').push({
+      'Name': name,
+      'From': from,
+      'Destination': dest,
+      'Date': date,
+      'Time': time,
+      'Seats': seats,
+      'Price': '$' + price,
+      'Email': email,
+      'Phone': phone,
+      'Additional': additional
+    })
+  }
 }
 
-function getData(data) {
-  var elmtTable = document.getElementById('allOffers');
-  var tableRows = elmtTable.getElementsByTagName('tr'); 
-  var rowCount = tableRows.length;
-
-  for (var x=rowCount-1; x>0; x--) {
-    tableRows[x].innerHTML = '';
-  }
-
-  var elmtTable = document.getElementById('requests');
+function getPWMOffersData(data) {
+  var elmtTable = document.getElementById('PWMOffers');
   var tableRows = elmtTable.getElementsByTagName('tr'); 
   var rowCount = tableRows.length;
 
@@ -138,21 +147,14 @@ function getData(data) {
     var priceText = offers[k].Price;
     var seatsText = offers[k].Seats;
 
-    createCell(dateText, fromText, destText, nameText, priceText, seatsText);
+    createPWMOfferCell(dateText, fromText, destText, nameText, priceText, seatsText);
   }
 }
 
-function errData(err) {
-  console.log('ERROR!');
-  console.log(err);
-}
-
-function createCell(dateInput, fromInput, destInput, nameInput, priceInput, seatsInput) {
-  var table = document.getElementById("allOffers");
+function createPWMOfferCell(dateInput, fromInput, destInput, nameInput, priceInput, seatsInput) {
+  var pwmtable = document.getElementById("PWMOffers");
   var newBody = document.createElement("tbody");
   var newRow = document.createElement("tr");
-
-  var pwmTable = document.getElementById("requests");
 
   var date = document.createElement("th");
   var from = document.createElement("td");
@@ -176,12 +178,71 @@ function createCell(dateInput, fromInput, destInput, nameInput, priceInput, seat
   newRow.append(seats);
 
   newBody.append(newRow);
-  table.append(newBody);
-  var cln = newBody.cloneNode(true);
-  pwmTable.append(cln);
+  pwmtable.append(newBody);
 }
 
+function getGenOffersData(data) {
+  console.log(data.val);
+  var elmtTable = document.getElementById('allOffers');
+  var tableRows = elmtTable.getElementsByTagName('tr'); 
+  var rowCount = tableRows.length;
 
+  for (var x=rowCount-1; x>0; x--) {
+    tableRows[x].innerHTML = '';
+  }
+
+  var offers = data.val();
+  var keys = Object.keys(offers);
+  console.log(keys);
+
+  for (var i = 0; i < keys.length; i++) {
+    var k = keys[i];
+
+    var dateText = offers[k].Date;
+    var fromText = offers[k].From;
+    var destText = offers[k].Destination;
+    var nameText = offers[k].Name;
+    var priceText = offers[k].Price;
+    var seatsText = offers[k].Seats;
+
+    createGenOfferCell(dateText, fromText, destText, nameText, priceText, seatsText);
+  }
+}
+
+function createGenOfferCell(dateInput, fromInput, destInput, nameInput, priceInput, seatsInput) {
+  var pwmtable = document.getElementById("allOffers");
+  var newBody = document.createElement("tbody");
+  var newRow = document.createElement("tr");
+
+  var date = document.createElement("th");
+  var from = document.createElement("td");
+  var dest = document.createElement("td");
+  var name = document.createElement("td");
+  var price = document.createElement("td");
+  var seats = document.createElement("td");
+
+  date.innerHTML = dateInput;
+  from.innerHTML = fromInput;
+  dest.innerHTML = destInput;
+  name.innerHTML = nameInput;
+  price.innerHTML = priceInput;
+  seats.innerHTML = seatsInput;
+
+  newRow.append(date);
+  newRow.append(from);
+  newRow.append(dest);
+  newRow.append(name);
+  newRow.append(price);
+  newRow.append(seats);
+
+  newBody.append(newRow);
+  pwmtable.append(newBody);
+}
+
+function errData(err) {
+  console.log('ERROR!');
+  console.log(err);
+}
 
 
 
@@ -214,8 +275,6 @@ if (document.getElementById("PWMRequestForm")) {
 
 };
 
-
-
 $(document).ready(function () {
   $('#nav-placeholder').load("navbar.html", function (response, status) {
     if (status === 'error') {
@@ -225,13 +284,13 @@ $(document).ready(function () {
 });
 
 
-$(document).ready(function () {
-  $('#request-form').load("requestForm.html", function (response, status) {
-    if (status === 'error') {
-      alert("Failed to load requestForm.html");
-    }
-  });
-});
+// $(document).ready(function () {
+//   $('#request-form').load("requestForm.html", function (response, status) {
+//     if (status === 'error') {
+//       alert("Failed to load requestForm.html");
+//     }
+//   });
+// });
 
 $(document).ready(function () {
   $('#offer-form').load("offerForm.html", function (response, status) {
