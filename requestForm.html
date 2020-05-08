@@ -46,41 +46,41 @@
             <form action="" method="GET">
               <div class="row form-group">
                 <label class="col-form-label col-md-2">Name:</label>
-                <input type="text" class="form-control col-md-10" required>
+                <input type="text" class="form-control col-md-10" id="nameText" required>
               </div>
 
               <div class="row form-group">
                 <label class="col-form-label col-md-2">From:</label>
                 <label class="col-md-2 radio-option">Bowdoin
-                  <input type="radio" name="from" required>
+                  <input type="radio" id="fromBowdoin" name="from" required>
                 </label>
                 <label class="col-md-2 radio-option">PWM
-                  <input type="radio" name="from">
+                  <input type="radio" id="fromPWM" name="from">
                 </label>
                 <label class="col-md-2 radio-option">Other:
                 </label>
-                <input type="text" name="from" class="form-control col">
+                <input type="text" id="fromOther" name="from" class="form-control col">
               </div>
 
               <div class="row form-group">
                 <label class="col-form-label col-md-2">To:</label>
                 <label class="col-md-2 radio-option">Bowdoin
-                  <input type="radio" name="destination" required>
+                  <input id="toBowdoin" type="radio" name="destination" required>
                 </label>
                 <label class="col-md-2 radio-option">PWM
-                  <input type="radio" name="destination">
+                  <input type="radio" name="destination" id="toPWM">
                 </label>
                 <label class="col-md-2 radio-option">Other:
                 </label>
-                <input type="text" name="destination" class="form-control col">
+                <input type="text" id="toOther" name="destination" class="form-control col">
               </div>
 
               <div class="row form-group">
                 <label for="datepicker" class="col-form-label col-md-1">Date:</label>
-                <input type="text" class="form-control col-sm-5" id="datepicker" placeholder="Select a Date" readonly required>
+                <input type="text" id="datepicker" class="form-control col-sm-5" id="datepicker" placeholder="Select a Date" readonly required>
 
                 <label class="col-form-label col-md-1">Time:</label>
-                <input type="time" class="form-control col-sm-2">
+                <input type="time" class="form-control col-sm-2" id="time">
 
                 <label class="col-form-label col-md-2">Passengers:</label>
                 <select class="form-control col-sm-1 selector" id="numOfPassengers" value="1" required>
@@ -93,14 +93,14 @@
 
               <div class="row form-group">
                 <label for="email" class="col-form-label col-md-2">Email:</label>
-                <input type="email" class="form-control col-sm-4" required>
+                <input type="email" id="email" class="form-control col-sm-4" required>
                 <label for="phoneNumber" class="col-form-label col-md-2">Phone #:</label>
-                <input type="tel" class="form-control col-sm-4">
+                <input type="tel" id="phone" class="form-control col-sm-4">
               </div>
 
               <div class="row form-group">
                 <label for="additionalInfo" class="col-form-label col-md-12">Additional information:</label>
-                <textarea class="form-control col additionalInfo" maxlength="500" Placeholder="Optional"></textarea>
+                <textarea class="form-control col additionalInfo" maxlength="500" Placeholder="Optional" id="addInfo"></textarea>
               </div>
 
             
@@ -115,7 +115,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" onclick="submitClick()" class="btn btn-primary">Submit</button>
         </div>
       </div>
     </div>
